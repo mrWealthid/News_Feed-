@@ -6,7 +6,4 @@ import { IArticles } from './components/articles/models/articles-model';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  title = 'newsFeed';
- 
-}
+export class AppComponent {}
