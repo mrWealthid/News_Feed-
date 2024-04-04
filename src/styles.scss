@@ -1,1 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-color: #1f295a;
+}
+body {
+  background-color: #eceef1;
+}
+
+.container-text {
+  @apply px-4 md:px-6  2xl:px-10;
+}
+
+@layer components {
+  .container {
+    @apply w-full md:w-5/6 mx-auto;
+  }
+
+  .card {
+    @apply text-secondary bg-white rounded-lg py-4 px-5 dark:text-white dark:glass;
+  }
+
+  .container-text {
+    @apply px-4 md:px-4 2xl:px-10;
+  }
+}
