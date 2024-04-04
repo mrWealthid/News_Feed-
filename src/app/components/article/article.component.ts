@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IArticles } from '../articles/models/articles-model';
 
 @Component({
@@ -8,4 +8,18 @@ import { IArticles } from '../articles/models/articles-model';
 })
 export class ArticleComponent {
   @Input({ required: true }) article: IArticles;
+  @Input({ required: true }) isBookmarked: boolean;
+  protected readonly Date = Date;
+
+  @Output()
+  addToBookmark = new EventEmitter();
+  @Output()
+  removeBookmark = new EventEmitter();
+
+  handleAddBookmark(article: IArticles) {
+    this.addToBookmark.emit(article);
+  }
+  handleRemoveBookmark(articleId: string) {
+    this.removeBookmark.emit(articleId);
+  }
 }
