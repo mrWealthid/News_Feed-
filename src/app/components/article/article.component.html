@@ -2,11 +2,12 @@
   class="flex bg-white rounded-2xl p-3 max-w-xl flex-col items-start justify-between"
 >
   <div class="flex items-center gap-x-4 text-xs">
-    <time datetime="2020-03-16" class="text-gray-500">Mar 16, 2020</time>
-    <a
-      href="#"
+    <time class="text-gray-500">
+      <p>{{ article.publishedAt | date : "medium" }}</p>
+    </time>
+    <span
       class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
-      >{{ article.source.name }}</a
+      >{{ article.source.name }}</span
     >
   </div>
   <div class="group relative">
@@ -23,10 +24,39 @@
     </p>
   </div>
 
-  <div class="w-full mt-8 flex justify-end items-center gap-x-4">
-    <span
-      class="border w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
-      >B</span
-    >
+  <div class="w-full mt-8 flex text-xs justify-between items-center gap-x-4">
+    <section>
+      <span
+        class="relative z-10 flex items-center gap-2 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+      >
+        <i class="fa-regular fa-user"></i>
+        {{ article.author }}</span
+      >
+    </section>
+
+    <section class="flex gap-2 items-center text-xs">
+      <span>
+        <a
+          target="_blank"
+          href="{{ article.url }}"
+          class="relative z-10 rounded-full flex items-center gap-2 bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+        >
+          Read More <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </a>
+      </span>
+
+      <span
+        (click)="
+          isBookmarked
+            ? handleRemoveBookmark(article.url)
+            : handleAddBookmark(article)
+        "
+        class="border w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+        [ngClass]="{ 'border-primary border-2 border-double': isBookmarked }"
+      >
+        <i *ngIf="isBookmarked" class="fa-solid fa-bookmark"></i>
+        <i *ngIf="!isBookmarked" class="fa-regular fa-bookmark"></i>
+      </span>
+    </section>
   </div>
 </article>
