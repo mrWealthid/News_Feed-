@@ -20,4 +20,8 @@ export class ArticlesService {
       })
     );
   }
+
+  getBookmarks() {
+    return JSON.parse(localStorage.getItem('bookmarks')!);
+  }
 }

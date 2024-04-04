@@ -9,10 +9,11 @@ import { IArticles } from './models/articles-model';
   styleUrls: ['./articles.component.scss'],
 })
 export class ArticlesComponent implements OnInit {
-  title: any = 'News';
+  title: any = 'News Feed';
 
   private articleService = inject(ArticlesService);
   articles$: Observable<IArticles[]> = this.articleService.getArticles();
+  bookmarks: IArticles[] = [];
 
   error$: Observable<boolean> = this.articles$.pipe(
     map(() => false), // no error, return false
@@ -24,6 +25,36 @@ export class ArticlesComponent implements OnInit {
   );
 
   ngOnInit(): void {
+    this.bookmarks = this.articleService.getBookmarks() || [];
+    console.log(this.bookmarks);
     // this.articles = this.articleService.getArticles();
+  }
+
+  toggleView(text: string) {
+    this.title = text;
+    // this.bookmarks = this.articleService.getBookmarks();
+  }
+
+  addBoomark(article: IArticles) {
+    this.bookmarks.push(article);
+    this.updateLocalStorage();
+    // localStorage.setItem('bookmarks', JSON.stringify(this.bookmarks));
+  }
+
+  updateLocalStorage() {
+    localStorage.setItem('bookmarks', JSON.stringify(this.bookmarks));
+  }
+
+  removeBookmark(articleId: string) {
+    this.bookmarks = this.bookmarks.filter(
+      (bookmark: IArticles) => bookmark.url !== articleId
+    );
+    this.updateLocalStorage();
+  }
+
+  isBookmarked(article: IArticles) {
+    return this.bookmarks.some(
+      (bookmark: IArticles) => bookmark.url === article.url
+    );
   }
 }
