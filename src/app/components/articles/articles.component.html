@@ -1,0 +1,46 @@
+<section class="min-h-screen flex pt-10 border-t gap-3 flex-col">
+  <section class="flex justify-between items-center">
+    <p>{{ title }}</p>
+
+    <section class="flex gap-2">
+      <div class="">
+        <button
+          type="button"
+          class="text-xs px-6 py-2 rounded-3xl font-light border btn"
+          [ngClass]="{ 'bg-primary text-white': title === 'News' }"
+        >
+          All
+        </button>
+      </div>
+      <div class="">
+        <button
+          type="button"
+          class="text-xs px-6 py-2 rounded-3xl font-light border btn"
+          [ngClass]="{ 'bg-primary': title === 'Bookmarks' }"
+        >
+          Bookmarks
+        </button>
+      </div>
+    </section>
+  </section>
+
+  <section *ngIf="title === 'News'">
+    <div *ngIf="error$ | async; else articlesList">
+      Error loading articles. Please try again later.
+    </div>
+
+    <ng-template #articlesList>
+      <section
+        class="grid grid-cols-3 w-full gap-4"
+        *ngIf="articles$ | async as articles"
+      >
+        <app-article
+          *ngFor="let article of articles"
+          [article]="article"
+        ></app-article>
+        <!-- <app-article></app-article>
+        <app-article> </app-article> -->
+      </section>
+    </ng-template>
+  </section>
+</section>
