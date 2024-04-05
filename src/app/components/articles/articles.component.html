@@ -48,21 +48,23 @@
       </ng-container>
 
       <ng-template #content>
-        <ng-container *ngIf="articlesState.error">
+        <ng-container *ngIf="articlesState.error; else articles">
           {{ articlesState.error }}
         </ng-container>
 
-        <ng-container *ngIf="articlesState.data.length > 0; else noRecord">
-          <section class="article-grid">
-            <app-article
-              *ngFor="let article of articlesState.data"
-              [article]="article"
-              [isBookmarked]="isBookmarked(article)"
-              (addToBookmark)="addBoomark($event)"
-              (removeBookmark)="removeBookmark($event)"
-            ></app-article>
-          </section>
-        </ng-container>
+        <ng-template #articles>
+          <ng-container *ngIf="articlesState.data.length > 0; else noRecord">
+            <section class="article-grid">
+              <app-article
+                *ngFor="let article of articlesState.data"
+                [article]="article"
+                [isBookmarked]="isBookmarked(article)"
+                (addToBookmark)="addBoomark($event)"
+                (removeBookmark)="removeBookmark($event)"
+              ></app-article>
+            </section>
+          </ng-container>
+        </ng-template>
       </ng-template>
 
       <ng-template #noRecord class="text-center">
