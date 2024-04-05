@@ -9,7 +9,6 @@ import { IArticles } from '../articles/models/articles-model';
 export class ArticleComponent {
   @Input({ required: true }) article: IArticles;
   @Input({ required: true }) isBookmarked: boolean;
-  protected readonly Date = Date;
 
   @Output()
   addToBookmark = new EventEmitter();
