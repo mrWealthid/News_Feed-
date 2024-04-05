@@ -1,7 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ArticlesService } from 'src/app/services/articles.service';
+
 import { IArticles, IArticlesState } from './models/articles-model';
+import { ArticlesService } from './services/articles.service';
 
 @Component({
   selector: 'app-articles',
