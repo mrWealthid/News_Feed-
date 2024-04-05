@@ -1,27 +1,44 @@
-# NewsFeed
+# Project-Articles
+This project is an articles platform developed using Angular 16, designed to fetch and display articles from a backend service. It integrates Tailwind CSS for styling, ensuring a responsive user interface. Users of the platform can view articles, bookmark their favorite ones, view their bookmarked articles, and remove articles from their bookmarks.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.5.
 
-## Development server
+## Installed Library
+- Tailwind CSS
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Features
 
-## Code scaffolding
+- View Articles: Users can browse a list of articles fetched from a backend service.
+- Bookmark Articles: Users have the option to bookmark articles for later viewing.
+- View Bookmarked Articles: Users can view a list of their bookmarked articles.
+- Remove Bookmarked Articles: Users can remove articles from their bookmarks.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Architecture
+This project follows Angular's best practices for project structure, ensuring modularity and ease of maintenance. The application is divided into several modules, each encapsulating related functionality. Tailwind CSS classes are used within Angular components to style the application responsively.
 
-## Build
+## Project Setup
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Prerequisites
 
-## Running unit tests
+- Node.js (LTS version)
+- npm (Node Package Manager)
+- Angular CLI (Version 16)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+### Getting Started
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+1. **Clone the repository**
 
-## Further help
+```bash
+git clone <repository-url>
+cd <project-directory>
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+npm install
+
+ng serve
+
+Navigate to http://localhost:4200/ in your browser. The app will automatically reload if you change any of the source files.
+
+
+
+
+
