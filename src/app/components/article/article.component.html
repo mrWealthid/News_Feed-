@@ -1,5 +1,5 @@
 <article
-  class="flex bg-white rounded-2xl p-3 max-w-xl h-80 flex-col items-start justify-between"
+  class="flex bg-white rounded-2xl hover:shadow-md duration-500 transition-shadow p-3 max-w-xl h-80 flex-col items-start justify-between"
 >
   <div class="flex items-center gap-x-4 text-xs">
     <time class="text-gray-500">
@@ -50,7 +50,7 @@
             ? handleRemoveBookmark(article.url)
             : handleAddBookmark(article)
         "
-        class="border w-8 h-8 cursor-pointer flex justify-center items-center rounded-full"
+        class="border w-8 h-8 transition-all duration-300 cursor-pointer flex justify-center items-center rounded-full"
         [ngClass]="{ 'border-primary border-2 border-double': isBookmarked }"
       >
         <i *ngIf="isBookmarked" class="fa-solid fa-bookmark"></i>
