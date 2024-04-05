@@ -10,3 +10,9 @@ export interface IArticles {
     name: string;
   };
 }
+
+export interface IArticlesState {
+  loading: boolean;
+  data: IArticles[];
+  error: string | null;
+}
