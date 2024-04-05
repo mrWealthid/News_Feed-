@@ -6,7 +6,8 @@ import { AppComponent } from './app.component';
 import { ArticlesComponent } from './components/articles/articles.component';
 import { ArticleComponent } from './components/article/article.component';
 import { HeaderComponent } from './components/header/header.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
+import { ArticleLoaderComponent } from './components/article/article-loader.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     ArticlesComponent,
     ArticleComponent,
     HeaderComponent,
+    ArticleLoaderComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],
