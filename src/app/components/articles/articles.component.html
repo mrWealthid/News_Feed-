@@ -1,43 +1,89 @@
-<section class="min-h-screen my-5 flex pt-5 gap-3 flex-col">
-  <section class="flex justify-between items-center">
+<section class="min-h-screen my-5 flex pt-5 gap-5 flex-col">
+  <section class="flex justify-between flex-wrap gap-2 items-center">
     <section>
       <p class="text-lg md:text-xl font-light text-primary">{{ title }}</p>
-      <small class="font-light text-xs italic">Showing 1 - 10 </small>
     </section>
 
     <!-- Buttton Tabs -->
-    <section class="flex gap-2">
-      <div class="">
-        <button
-          (click)="toggleView('News Feed')"
-          type="button"
-          class="text-xs px-4 md:px-6 flex items-center gap-2 py-2 rounded-3xl font-light border btn"
-          [ngClass]="{ 'bg-primary text-white': title === 'News Feed' }"
-        >
-          <i class="fa-solid fa-rss"></i>
-          All
-        </button>
-      </div>
-      <div class="">
-        <button
-          (click)="toggleView('Bookmarks')"
-          type="button"
-          class="text-xs px-4 md:px-6 flex items-center gap-2 py-2 rounded-3xl font-light border btn"
-          [ngClass]="{ 'bg-primary text-white': title === 'Bookmarks' }"
-        >
-          <i *ngIf="bookmarks.length > 0" class="fa-solid fa-bookmark"></i>
-          <i *ngIf="!(bookmarks.length > 0)" class="fa-regular fa-bookmark"></i>
-          Bookmarks
-        </button>
-      </div>
+    <section class="flex view-buttons gap-2">
+      <tab-button
+        [isActive]="title === 'News Feed'"
+        [sourceId]="'News Feed'"
+        [btnText]="'All'"
+        (selected)="toggleView($event)"
+      >
+        <i class="fa-solid fa-rss"></i>
+      </tab-button>
+
+      <tab-button
+        [isActive]="title === 'Bookmarks'"
+        [sourceId]="'Bookmarks'"
+        [btnText]="'Bookmarks'"
+        (selected)="toggleView($event)"
+      >
+        <i *ngIf="bookmarks.length > 0" class="fa-solid fa-bookmark"></i>
+        <i *ngIf="!(bookmarks.length > 0)" class="fa-regular fa-bookmark"></i>
+      </tab-button>
     </section>
   </section>
 
   <!-- MarkUp to display  Articles State(Loading, Error and Data) -->
   <section *ngIf="title === 'News Feed'; else bookmarkList">
+    <!-- News Sources Tab -->
+    <section class="text-center sources-buttons flex-wrap flex gap-2">
+      <tab-button
+        [isActive]="sources.getValue() === 'abc-news'"
+        [sourceId]="'abc-news'"
+        [btnText]="'ABC'"
+        [type]="'sources'"
+        (selected)="toggleSources($event)"
+      >
+        <i class="fa-solid fa-rss"></i>
+      </tab-button>
+      <tab-button
+        [isActive]="sources.getValue() === 'bbc-news'"
+        [sourceId]="'bbc-news'"
+        [btnText]="'BBC'"
+        [type]="'sources'"
+        (selected)="toggleSources($event)"
+      >
+        <i class="fa-solid fa-rss"></i>
+      </tab-button>
+
+      <tab-button
+        [isActive]="sources.getValue() === 'cnn'"
+        [sourceId]="'cnn'"
+        [btnText]="'CNN'"
+        [type]="'sources'"
+        (selected)="toggleSources($event)"
+      >
+        <i class="fa-solid fa-rss"></i>
+      </tab-button>
+
+      <tab-button
+        [isActive]="sources.getValue() === 'google-news'"
+        [sourceId]="'google-news'"
+        [btnText]="'Google'"
+        [type]="'sources'"
+        (selected)="toggleSources($event)"
+      >
+        <i class="fa-solid fa-rss"></i>
+      </tab-button>
+
+      <tab-button
+        [isActive]="sources.getValue() === 'fox-news'"
+        [sourceId]="'fox-news'"
+        [btnText]="'FOX'"
+        [type]="'sources'"
+        (selected)="toggleSources($event)"
+      >
+        <i class="fa-solid fa-rss"></i>
+      </tab-button>
+    </section>
+
     <section *ngIf="articles$ | async as articlesState">
       <ng-container *ngIf="articlesState.loading; else content">
-        <section class="article-grid">
+        <section class="article-grid my-5">
           <article-loader></article-loader>
           <article-loader></article-loader>
           <article-loader></article-loader>
@@ -49,11 +95,19 @@
 
       <ng-template #content>
         <ng-container *ngIf="articlesState.error; else articles">
-          {{ articlesState.error }}
+          <app-error>
+            <p class="max-w-lg">
+              We keep track of these errors, but feel free to contact us if
+              refreshing doesn't fix things.
+            </p>
+          </app-error>
         </ng-container>
 
         <ng-template #articles>
           <ng-container *ngIf="articlesState.data.length > 0; else noRecord">
+            <small class="font-light block my-3 text-right text-xs italic"
+              >Showing 1 - {{ articlesState.data.length }}
+            </small>
             <section class="article-grid">
               <app-article
                 *ngFor="let article of articlesState.data"
@@ -61,20 +115,29 @@
                 [isBookmarked]="isBookmarked(article)"
                 (addToBookmark)="addBoomark($event)"
                 (removeBookmark)="removeBookmark($event)"
+                (addToSeen)="addToSeen($event)"
+                [isViewed]="isViewed(article)"
               ></app-article>
             </section>
           </ng-container>
         </ng-template>
       </ng-template>
 
-      <ng-template #noRecord class="text-center">
-        No Feed Available
+      <ng-template #noRecord>
+        <app-error [errorMessage]="'Hey! No Record Found. '">
+          <p class="max-w-lg emptyState">
+            There is no data to display, kindly check other new sources!!!
+          </p>
+        </app-error>
       </ng-template>
     </section>
   </section>
 
   <!-- Markup to display Bookmarks -->
   <ng-template #bookmarkList>
+    <small *ngIf="bookmarks.length > 1" class="font-light text-xs italic"
+      >Showing 1 - {{ bookmarks.length }}
+    </small>
     <section class="article-grid" *ngIf="bookmarks.length > 0">
       <app-article
         *ngFor="let article of bookmarks"
@@ -82,11 +145,15 @@
         [isBookmarked]="isBookmarked(article)"
         (addToBookmark)="addBoomark($event)"
         (removeBookmark)="removeBookmark($event)"
+        (addToSeen)="addToSeen($event)"
+        [isViewed]="isViewed(article)"
       ></app-article>
     </section>
 
     <section class="text-center" *ngIf="bookmarks.length < 1">
-      No Bookmark Found
+      <app-error [errorMessage]="'Hey! No Saved bookmark'">
+        <p class="max-w-lg">Bookmark your favorite news feed today!!!</p>
+      </app-error>
     </section>
   </ng-template>
 </section>

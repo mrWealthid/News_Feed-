@@ -1,41 +1,55 @@
-<article
-  class="flex bg-white rounded-2xl hover:shadow-md duration-500 transition-shadow p-3 max-w-xl h-80 flex-col items-start justify-between"
->
+<article class="card">
   <div class="flex items-center gap-x-4 text-xs">
     <time class="text-gray-500">
-      <p>{{ article.publishedAt | date : "medium" }}</p>
+      <p>{{ article.publishedAt | date : "medium" || "Unavailable" }}</p>
     </time>
     <span
       title="{{ article.source.name }}"
-      class="z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
-      >{{ article.source.name }}</span
+      class="z-10 rounded-full bg-gray-50 px-3 source py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+      >{{ article.source.name || "Anonymous" }}</span
+    >
+
+    <span
+      *ngIf="isViewed"
+      title="Viewed"
+      class="relative z-10 flex items-center gap-2 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+    >
+      <i class="fa-regular fa-eye"></i>
+      Seen</span
     >
   </div>
   <div class="group">
     <h3
       title="{{ article.title }}"
-      class="mt-3 text-lg font-semibold leading-6 text-primary group-hover:text-gray-600"
+      class="mt-3 text-lg font-semibold title leading-6 text-primary group-hover:text-gray-600"
     >
-      {{ article.title }}
+      {{ article.title || "Title is unavailable" }}
     </h3>
-    <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
-      {{ article.description }}
+    <p class="mt-5 line-clamp-3 description text-sm leading-6 text-gray-600">
+      {{
+        article.description ||
+          article.content ||
+          "Content summary is unavailable, kindly visit blog to read content, by clicking the read more button below."
+      }}...
     </p>
   </div>
 
   <div class="w-full mt-8 flex text-xs justify-between items-center gap-x-4">
     <span
-      title="Author"
-      class="relative z-10 flex items-center gap-2 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+      title="{{ article.author }}"
+      class="relative z-10 author flex items-center gap-2 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
     >
       <i class="fa-regular fa-user"></i>
-      {{ article.author.split(",")[0] }}</span
-    >
+      <span class="ellipsis-overflow">
+        {{ article.author || "Anonymous" }}</span
+      >
+    </span>
 
     <section class="flex gap-2 items-center text-xs">
-      <span title="External URL">
+      <span class="article-url" *ngIf="article.url" title="External URL">
         <a
           target="_blank"
+          (click)="handleAddSeen(article.url)"
           href="{{ article.url }}"
           class="relative z-10 rounded-full flex items-center gap-2 bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
         >
@@ -44,13 +58,14 @@
       </span>
 
       <span
+        *ngIf="article.url"
         title="{{ isBookmarked ? 'Remove Bookmark' : 'Add Bookmark' }}"
         (click)="
           isBookmarked
             ? handleRemoveBookmark(article.url)
             : handleAddBookmark(article)
         "
-        class="border w-8 h-8 transition-all duration-300 cursor-pointer flex justify-center items-center rounded-full"
+        class="border w-8 h-8 transition-all bookmark  duration-300 cursor-pointer flex justify-center items-center rounded-full"
         [ngClass]="{ 'border-primary border-2 border-double': isBookmarked }"
       >
         <i *ngIf="isBookmarked" class="fa-solid fa-bookmark"></i>

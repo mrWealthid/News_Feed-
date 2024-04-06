@@ -8,30 +8,35 @@ import { IArticlesState } from '../models/articles-model';
   providedIn: 'root',
 })
 export class ArticlesService {
-  private apiUrl = `https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=${environment.API_KEY}`;
+  private apiUrl = `https://newsapi.org/v2/top-headlines`;
 
   private http = inject(HttpClient);
   constructor() {}
 
-  getArticles(): Observable<IArticlesState> {
-    return this.http.get(this.apiUrl).pipe(
-      map((data: any) => ({
-        loading: false,
-        data: data.articles,
-        error: null,
-      })),
-      startWith({ loading: true, data: [], error: null }),
-      catchError(({ error }) =>
-        of({
+  getArticles(val: string): Observable<IArticlesState> {
+    return this.http
+      .get(`${this.apiUrl}?sources=${val}&apiKey=${environment.API_KEY}`)
+      .pipe(
+        map((data: any) => ({
           loading: false,
-          error: error.message,
-          data: [],
-        })
-      )
-    );
+          data: data.articles,
+          error: null,
+        })),
+        startWith({ loading: true, data: [], error: null }),
+        catchError(({ error }) =>
+          of({
+            loading: false,
+            error: 'failed',
+            data: [],
+          })
+        )
+      );
   }
 
   getBookmarks() {
     return JSON.parse(localStorage.getItem('bookmarks')!);
+  }
+  getViewedArticles() {
+    return JSON.parse(localStorage.getItem('viewedArticles')!);
   }
 }

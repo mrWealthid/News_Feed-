@@ -8,17 +8,27 @@ import { IArticles } from '../articles/models/articles-model';
 })
 export class ArticleComponent {
   @Input({ required: true }) article: IArticles;
+
   @Input({ required: true }) isBookmarked: boolean;
+
+  @Input({ required: true }) isViewed: boolean;
 
   @Output()
   addToBookmark = new EventEmitter();
+
   @Output()
   removeBookmark = new EventEmitter();
+
+  @Output()
+  addToSeen = new EventEmitter();
 
   handleAddBookmark(article: IArticles) {
     this.addToBookmark.emit(article);
   }
   handleRemoveBookmark(articleId: string) {
     this.removeBookmark.emit(articleId);
+  }
+  handleAddSeen(articleId: string) {
+    this.addToSeen.emit(articleId);
   }
 }
