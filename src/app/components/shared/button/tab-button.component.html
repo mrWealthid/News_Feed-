@@ -1,0 +1,24 @@
+<div class="">
+  <button
+    (click)="toggle()"
+    type="button"
+    class="text-xs px-4 md:px-6 flex items-center gap-2 py-2 rounded-3xl font-light border border-gray-300 btn"
+    [ngClass]="{
+      'bg-primary text-white': isActive
+    }"
+  >
+    <ng-content #icon *ngIf="!type"></ng-content>
+
+    <!-- <ng-content #custom *ngIf="type"></ng-content> -->
+
+    <i
+      *ngIf="type && isActive"
+      class="fa-solid fa-circle fa-xs animate-pulse text-red-600"
+    ></i>
+    <i *ngIf="type && !isActive" class="fa-solid fa-rss"></i>
+
+    <!-- <i class="fa-solid fa-rss"></i> -->
+
+    {{ btnText }}
+  </button>
+</div>

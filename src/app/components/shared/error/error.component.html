@@ -1,0 +1,13 @@
+<section
+  class="flex error-component flex-col mt-10 gap-10 justify-center items-center"
+>
+  <section class="text-center">
+    <h3 class="font-semibold text-4xl mb-10">{{ errorMessage }}</h3>
+
+    <ng-content></ng-content>
+  </section>
+
+  <section>
+    <img src="assets/error.svg" alt="error-image" />
+  </section>
+</section>
