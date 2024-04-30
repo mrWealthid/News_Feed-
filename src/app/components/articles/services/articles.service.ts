@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, map, of, startWith } from 'rxjs';
+import { Observable, catchError, map, of, startWith, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IArticlesState } from '../models/articles-model';
 
@@ -26,7 +26,7 @@ export class ArticlesService {
         catchError(({ error }) =>
           of({
             loading: false,
-            error: 'failed',
+            error: error.message,
             data: [],
           })
         )
