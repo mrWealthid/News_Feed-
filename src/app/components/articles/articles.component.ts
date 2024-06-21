@@ -1,5 +1,10 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { BehaviorSubject, Observable, switchMap } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  distinctUntilChanged,
+  switchMap,
+} from 'rxjs';
 
 import { IArticles, IArticlesState } from './models/articles-model';
 import { ArticlesService } from './services/articles.service';
@@ -17,6 +22,7 @@ export class ArticlesComponent implements OnInit {
   private articleService = inject(ArticlesService);
 
   articles$: Observable<IArticlesState> = this.sources.pipe(
+    distinctUntilChanged(),
     switchMap((sources) => this.articleService.getArticles(sources))
   );
 
